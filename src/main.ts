@@ -20,7 +20,7 @@ async function bootstrap() {
   app.enableCors({ origin: true, credentials: true });
 
   const config = new DocumentBuilder()
-    .setTitle('Hughflyers API')
+    .setTitle('Highflyers API')
     .setVersion('1.0')
     .addServer('http://192.168.0.146:5000')
     .addBearerAuth({ type: 'http' })

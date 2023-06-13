@@ -1,21 +1,33 @@
+import { ApiProperty } from '@nestjs/swagger';
 import { Exclude } from 'class-transformer';
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 export class User {
+  @ApiProperty()
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
+  @ApiProperty()
   @Column({ nullable: true })
-  first_name: string;
+  first_name?: string;
+  @ApiProperty()
   @Column({ nullable: true })
-  second_name: string;
+  second_name?: string;
 
+  @ApiProperty()
   @Column()
   email: string;
   @Column()
   @Exclude()
   password: string;
+
+  @Column({ nullable: true })
+  @Exclude()
+  resetCode?: string;
+  @Column({ nullable: true })
+  @Exclude()
+  resetCodeExpiredIn?: Date;
 
   @Column({ nullable: true })
   @Exclude()

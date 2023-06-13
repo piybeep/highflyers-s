@@ -4,6 +4,7 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './entities/User.entity';
 import { Repository } from 'typeorm';
+import { GetAllDto } from './dto/get-all.dto';
 
 @Injectable()
 export class UsersService {
@@ -17,8 +18,12 @@ export class UsersService {
     return new_user;
   }
 
-  async getAll() {
-    const [users, count] = await this.userRepository.findAndCount();
+  async getAll(dto: GetAllDto) {
+    const takeCount = 12;
+    const [users, count] = await this.userRepository.findAndCount({
+      skip: parseInt(dto.page ?? '1') * takeCount,
+      take: takeCount,
+    });
     return { users, count };
   }
 
@@ -43,7 +48,11 @@ export class UsersService {
   }
 
   async remove(id: string) {
-    const removed_user = await this.userRepository.softRemove({ id });
-    return removed_user;
+    const candidate = this.findById(id);
+    if (!candidate) {
+      throw new NotFoundException('Пользователь с таким id не найден');
+    }
+    await this.userRepository.delete({ id });
+    return candidate;
   }
 }

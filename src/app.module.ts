@@ -4,6 +4,8 @@ import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
 import { CardsModule } from './cards/cards.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { EmailService } from './email/email.service';
+import { EmailModule } from './email/email.module';
 import * as Joi from 'joi';
 
 @Module({
@@ -18,6 +20,11 @@ import * as Joi from 'joi';
         TYPEORM_PASS: Joi.string().required(),
         TYPEORM_DB: Joi.string().required(),
         TYPEORM_PORT: Joi.number().required(),
+        MAIL_HOST: Joi.string().required(),
+        MAIL_USER: Joi.string().required(),
+        MAIL_PASS: Joi.string().required(),
+        MAIL_FROM: Joi.string().required(),
+        MAIL_TRANSPORT: Joi.string().required(),
       }),
       isGlobal: true,
     }),
@@ -39,9 +46,10 @@ import * as Joi from 'joi';
     }),
     UsersModule,
     AuthModule,
-    CardsModule,
+    EmailModule,
+    // CardsModule,
   ],
   controllers: [],
-  providers: [],
+  providers: [EmailService],
 })
 export class AppModule {}

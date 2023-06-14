@@ -9,6 +9,7 @@ import { ServicesModule } from './services/services.module';
 import * as Joi from 'joi';
 import { APP_GUARD } from '@nestjs/core';
 import { AdminOnlyGuard } from './common/guards/adminOnly.guard';
+import { CategoriesModule } from './categories/categories.module';
 
 @Module({
   imports: [
@@ -50,6 +51,7 @@ import { AdminOnlyGuard } from './common/guards/adminOnly.guard';
     AuthModule,
     EmailModule,
     ServicesModule,
+    CategoriesModule,
     // CardsModule,
   ],
   controllers: [],

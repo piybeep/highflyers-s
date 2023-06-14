@@ -1,5 +1,6 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
+import { Category } from '../../categories/entities/category.entity';
 
 @Entity()
 export class Service {
@@ -21,4 +22,8 @@ export class Service {
   @ApiProperty()
   @Column('text', { array: true })
   points: string[];
+
+  @ApiProperty({ type: Category })
+  @ManyToOne((type) => Category, (category) => category.services)
+  category: Category;
 }

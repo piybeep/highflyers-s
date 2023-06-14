@@ -1,5 +1,11 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsInt, IsNotEmpty, IsPositive, IsString } from 'class-validator';
+import {
+  IsInt,
+  IsNotEmpty,
+  IsPositive,
+  IsString,
+  IsUUID,
+} from 'class-validator';
 
 export class CreateServiceDto {
   @ApiProperty()
@@ -23,4 +29,9 @@ export class CreateServiceDto {
   @IsNotEmpty({ message: 'Отсутствуют опции услуги' })
   @IsString({ each: true })
   points: string[];
+
+  @ApiProperty()
+  @IsNotEmpty({ message: 'Отсутствует идентификатор категории' })
+  @IsUUID('4')
+  categoryId: string;
 }

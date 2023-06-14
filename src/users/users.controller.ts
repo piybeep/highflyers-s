@@ -14,12 +14,15 @@ import { ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { GetAllDto } from './dto/get-all.dto';
 import { User } from './entities/User.entity';
 import { GetAllUsersResponseDto } from './dto/responses.dto';
+import { AdminOnly } from '../common/decorators/adminOnly.decorator';
+import { MakeAdminDto } from './dto/make-admin.dto';
 
 @ApiTags('Пользователи')
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
+  @AdminOnly(true)
   @ApiOperation({ summary: 'Получение списка всех пользователей' })
   @ApiOkResponse({ type: GetAllUsersResponseDto })
   @Get()
@@ -49,5 +52,11 @@ export class UsersController {
   @Delete(':id')
   remove(@Param('id', new ParseUUIDPipe({ version: '4' })) id: string) {
     return this.usersService.remove(id);
+  }
+
+  @AdminOnly(true)
+  @Patch(':id/makeadmin')
+  makeAdmin(@Param('id') id: string, @Body() dto: MakeAdminDto) {
+    return this.usersService.makeAdmin(id, dto.reverse);
   }
 }

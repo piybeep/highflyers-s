@@ -48,6 +48,8 @@ export class CreateUserDto {
   )
   password: string;
 
+  isAdmin?: boolean;
+
   @ApiHideProperty()
   refreshToken: string;
 }

@@ -29,6 +29,10 @@ export class User {
   @Exclude()
   resetCodeExpiredIn?: Date;
 
+  @ApiProperty()
+  @Column({ default: false })
+  isAdmin: boolean;
+
   @Column({ nullable: true })
   @Exclude()
   refreshToken: string;

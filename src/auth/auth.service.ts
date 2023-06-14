@@ -37,7 +37,11 @@ export class AuthService {
       ...createUserDto,
       password: hash,
     });
-    const tokens = await this.getTokens(newUser.id, newUser.email);
+    const tokens = await this.getTokens(
+      newUser.id,
+      newUser.email,
+      newUser.isAdmin,
+    );
     await this.updateRefreshToken(newUser.id, tokens.refreshToken);
     return { ...tokens, user: newUser };
   }
@@ -48,7 +52,7 @@ export class AuthService {
     const passwordMatches = await argon2.verify(user.password, data.password);
     if (!passwordMatches)
       throw new BadRequestException('Неверная почта или пароль');
-    const tokens = await this.getTokens(user.id, user.email);
+    const tokens = await this.getTokens(user.id, user.email, user.isAdmin);
     await this.updateRefreshToken(user.id, tokens.refreshToken);
     return { ...tokens, user };
   }
@@ -68,12 +72,13 @@ export class AuthService {
     });
   }
 
-  async getTokens(userId: string, username: string) {
+  async getTokens(userId: string, username: string, isAdmin: boolean) {
     const [accessToken, refreshToken] = await Promise.all([
       this.jwtService.signAsync(
         {
           sub: userId,
           username,
+          isAdmin,
         },
         {
           secret: this.configService.get<string>('JWT_ACCESS_SECRET'),
@@ -84,6 +89,7 @@ export class AuthService {
         {
           sub: userId,
           username,
+          isAdmin,
         },
         {
           secret: this.configService.get<string>('JWT_REFRESH_SECRET'),
@@ -106,7 +112,7 @@ export class AuthService {
       refreshToken,
     );
     if (!refreshTokenMatches) throw new ForbiddenException();
-    const tokens = await this.getTokens(user.id, user.email);
+    const tokens = await this.getTokens(user.id, user.email, user.isAdmin);
     await this.updateRefreshToken(user.id, tokens.refreshToken);
     return { ...tokens, user };
   }
@@ -114,7 +120,7 @@ export class AuthService {
   async recovery(email: string) {
     const user = await this.usersService.findByEmail(email);
     if (!user) {
-      throw new NotFoundException('Пользователь с таким email не найден');
+      throw new NotFoundException('Пользователь не найден');
     }
     const user_with_code = await this.usersService.update(user.id, {
       resetCode: this.genResetCode(),
@@ -144,7 +150,11 @@ export class AuthService {
       resetCode: null,
       resetCodeExpiredIn: null,
     });
-    const tokens = await this.getTokens(updatedUser.id, updatedUser.email);
+    const tokens = await this.getTokens(
+      updatedUser.id,
+      updatedUser.email,
+      updatedUser.isAdmin,
+    );
     await this.updateRefreshToken(updatedUser.id, tokens.refreshToken);
     return { ...tokens, user: updatedUser };
   }

@@ -1,11 +1,11 @@
 import {
-  Controller,
-  Get,
-  Post,
   Body,
-  Patch,
-  Param,
+  Controller,
   Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
 } from '@nestjs/common';
 import { CardsService } from './cards.service';
 import { CreateCardDto } from './dto/create-card.dto';

@@ -2,26 +2,37 @@ import {
   Body,
   Controller,
   Delete,
+  ForbiddenException,
   Get,
   Param,
   ParseUUIDPipe,
   Patch,
   Query,
+  Req,
+  UseGuards,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
+import {
+  ApiBearerAuth,
+  ApiOkResponse,
+  ApiOperation,
+  ApiTags,
+} from '@nestjs/swagger';
 import { GetAllDto } from './dto/get-all.dto';
 import { User } from './entities/User.entity';
 import { GetAllUsersResponseDto } from './dto/responses.dto';
 import { AdminOnly } from '../common/decorators/adminOnly.decorator';
 import { MakeAdminDto } from './dto/make-admin.dto';
+import { AccessTokenGuard } from '../common/guards/accessToken.guard';
 
 @ApiTags('Пользователи')
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
+  @ApiBearerAuth()
+  @UseGuards(AccessTokenGuard)
   @AdminOnly(true)
   @ApiOperation({ summary: 'Получение списка всех пользователей' })
   @ApiOkResponse({ type: GetAllUsersResponseDto })
@@ -30,6 +41,8 @@ export class UsersController {
     return this.usersService.getAll(dto);
   }
 
+  @ApiBearerAuth()
+  @UseGuards(AccessTokenGuard)
   @ApiOperation({ summary: 'Получение пользователя по идентификатору' })
   @ApiOkResponse({ type: User })
   @Get(':id')
@@ -37,23 +50,46 @@ export class UsersController {
     return this.usersService.findById(id);
   }
 
+  @ApiBearerAuth()
+  @UseGuards(AccessTokenGuard)
   @ApiOperation({ summary: 'Обновление данных пользователя по идентификатору' })
   @ApiOkResponse({ type: User })
   @Patch(':id')
-  update(
+  async update(
     @Param('id', new ParseUUIDPipe({ version: '4' })) id: string,
     @Body() dto: UpdateUserDto,
+    @Req() req,
   ) {
+    const user = await this.usersService.findById(id);
+    if (user && user.id !== req.user['sub'] && !user.isAdmin) {
+      throw new ForbiddenException();
+    }
     return this.usersService.update(id, dto);
   }
 
+  @UseGuards(AccessTokenGuard)
+  @ApiBearerAuth()
   @ApiOperation({ summary: 'Удаление пользователя по идентификатору' })
   @ApiOkResponse({ type: User })
   @Delete(':id')
-  remove(@Param('id', new ParseUUIDPipe({ version: '4' })) id: string) {
+  async remove(
+    @Param('id', new ParseUUIDPipe({ version: '4' })) id: string,
+    @Req() req,
+  ) {
+    const user = await this.usersService.findById(id);
+    if (user && user.id !== req.user['sub'] && !user.isAdmin) {
+      throw new ForbiddenException();
+    }
     return this.usersService.remove(id);
   }
 
+  @ApiBearerAuth()
+  @ApiOperation({
+    summary: 'Выдача пользователю прав администратора',
+    description: 'Только для админов',
+  })
+  @ApiOkResponse({ type: User })
+  @UseGuards(AccessTokenGuard)
   @AdminOnly(true)
   @Patch(':id/makeadmin')
   makeAdmin(@Param('id') id: string, @Body() dto: MakeAdminDto) {

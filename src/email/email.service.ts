@@ -5,6 +5,7 @@ import { User } from 'src/users/entities/User.entity';
 @Injectable()
 export class EmailService {
   constructor(private mailerService: MailerService) {}
+
   async sendRecoveryMessage(user: User) {
     const link = `highflyers.ru/recovery/newpassword?id=${user.id}&code=${user.resetCode}`;
     const username =

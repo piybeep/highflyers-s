@@ -46,10 +46,11 @@ export class CreateUserDto {
         'Пароль слишком простой (минимум 5 символов, из которых хотя бы 1 число, 1 маленькая буква и 1 большая буква)',
     },
   )
-  password: string;
+  password?: string;
+  google_id?: string;
 
   isAdmin?: boolean;
 
   @ApiHideProperty()
-  refreshToken: string;
+  refreshToken?: string;
 }

@@ -27,6 +27,7 @@ import { RecoveryRequestDto } from './dto/recovery-request.dto';
 import { RecoveryWithCodeDto } from './dto/recovery-w-code.dto';
 import { SignResponseDto } from './dto/responses.dto';
 import { OAuth2Client } from 'google-auth-library';
+import { GoogleSignDto } from './dto/google.dto';
 
 const client = new OAuth2Client(
   process.env.GOOGLE_CLIENT_ID,
@@ -90,19 +91,21 @@ export class AuthController {
   }
 
   @ApiOperation({ summary: 'Google аунтификация' })
+  @ApiOkResponse({ type: SignResponseDto })
   @Post('google')
-  async googleSignin(@Body('token') token: string) {
+  async googleSign(@Body() { token }: GoogleSignDto) {
     const ticket = await client.verifyIdToken({
       idToken: token,
       audience: process.env.GOOGLE_CLIENT_ID,
     });
 
-    console.log(
-      ticket.getPayload(),
-      ticket.getAttributes(),
-      ticket.getEnvelope(),
-    );
+    const { sub, email, given_name, family_name } = ticket.getPayload();
 
-    return ticket.getUserId();
+    return this.authService.googleSign({
+      google_id: sub,
+      email,
+      first_name: given_name,
+      second_name: family_name,
+    });
   }
 }

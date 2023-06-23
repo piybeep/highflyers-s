@@ -15,6 +15,7 @@ import { EmailService } from 'src/email/email.service';
 import { randomBytes } from 'crypto';
 import { RecoveryWithCodeDto } from './dto/recovery-w-code.dto';
 import { isNotEmpty } from 'class-validator';
+import { GoogleDto } from './dto/google.dto';
 
 @Injectable()
 export class AuthService {
@@ -161,5 +162,23 @@ export class AuthService {
 
   genResetCode() {
     return randomBytes(20).toString('hex');
+  }
+
+  async googleSign(payload: GoogleDto) {
+    const user = await this.usersService.findByEmail(payload.email);
+    if (!user) {
+      const newUser = await this.usersService.create(payload);
+      const tokens = await this.getTokens(
+        newUser.id,
+        newUser.email,
+        newUser.isAdmin,
+      );
+      await this.updateRefreshToken(newUser.id, tokens.refreshToken);
+      return { ...tokens, user: newUser };
+    }
+
+    const tokens = await this.getTokens(user.id, user.email, user.isAdmin);
+    await this.updateRefreshToken(user.id, tokens.refreshToken);
+    return { ...tokens, user };
   }
 }

@@ -20,7 +20,10 @@ export class User {
   email: string;
   @Column()
   @Exclude()
-  password: string;
+  password?: string;
+  @Column()
+  @Exclude()
+  google_id?: string;
 
   @Column({ nullable: true })
   @Exclude()

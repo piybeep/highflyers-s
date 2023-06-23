@@ -94,5 +94,7 @@ export class AuthController {
     const { tokens } = await client.getToken(code);
 
     console.log(tokens);
+
+    return tokens;
   }
 }

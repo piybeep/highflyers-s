@@ -92,6 +92,7 @@ export class AuthController {
   @ApiOperation({ summary: 'Google аунтификация' })
   @Post('google')
   async googleSignin(@Body('code') code: string) {
+    console.log(code);
     const { tokens } = await client.getToken(code);
 
     console.log(tokens);

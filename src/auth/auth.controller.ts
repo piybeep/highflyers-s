@@ -91,12 +91,14 @@ export class AuthController {
 
   @ApiOperation({ summary: 'Google аунтификация' })
   @Post('google')
-  async googleSignin(@Body('code') code: string) {
-    console.log(code);
-    const { tokens } = await client.getToken(code);
+  async googleSignin(@Body('token') token: string) {
+    const ticket = await client.verifyIdToken({
+      idToken: token,
+      audience: process.env.GOOGLE_CLIENT_ID,
+    });
 
-    console.log(tokens);
+    console.log(ticket.getPayload());
 
-    return tokens;
+    return ticket.getUserId();
   }
 }

@@ -17,7 +17,7 @@ import { ConfigService } from '@nestjs/config';
           logger: true,
         },
         template: {
-          dir: join(__dirname, 'tempaltes'),
+          dir: join(__dirname, 'templates'),
           adapter: new HandlebarsAdapter(),
           options: {
             strict: true,

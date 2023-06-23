@@ -28,6 +28,8 @@ import { CategoriesModule } from './categories/categories.module';
         MAIL_PASS: Joi.string().required(),
         MAIL_FROM: Joi.string().required(),
         MAIL_TRANSPORT: Joi.string().required(),
+        GOOGLE_CLIENT_ID: Joi.string().required(),
+        GOOGLE_CLIENT_SECRET: Joi.string().required(),
       }),
       isGlobal: true,
     }),

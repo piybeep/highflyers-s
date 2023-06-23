@@ -26,6 +26,12 @@ import {
 import { RecoveryRequestDto } from './dto/recovery-request.dto';
 import { RecoveryWithCodeDto } from './dto/recovery-w-code.dto';
 import { SignResponseDto } from './dto/responses.dto';
+import { OAuth2Client } from 'google-auth-library';
+
+const client = new OAuth2Client(
+  process.env.GOOGLE_CLIENT_ID,
+  process.env.GOOGLE_CLIENT_SECRET,
+);
 
 @ApiTags('Аунтификация')
 @Controller('auth')
@@ -81,5 +87,15 @@ export class AuthController {
     const userId = req.user['sub'];
     const refreshToken = req.user['refreshToken'];
     return this.authService.refreshTokens(userId, refreshToken);
+  }
+
+  @Post('google')
+  async googleSignin(@Body('token') token: string) {
+    const ticket = await client.verifyIdToken({
+      idToken: token,
+      audience: process.env.GOOGLE_CLIENT_ID,
+    });
+
+    console.log(ticket.getPayload());
   }
 }

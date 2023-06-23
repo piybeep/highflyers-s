@@ -89,6 +89,7 @@ export class AuthController {
     return this.authService.refreshTokens(userId, refreshToken);
   }
 
+  @ApiOperation({ summary: 'Google аунтификация' })
   @Post('google')
   async googleSignin(@Body('code') code: string) {
     const { tokens } = await client.getToken(code);

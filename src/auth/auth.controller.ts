@@ -97,7 +97,11 @@ export class AuthController {
       audience: process.env.GOOGLE_CLIENT_ID,
     });
 
-    console.log(ticket.getPayload());
+    console.log(
+      ticket.getPayload(),
+      ticket.getAttributes(),
+      ticket.getEnvelope(),
+    );
 
     return ticket.getUserId();
   }

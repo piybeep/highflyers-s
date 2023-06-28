@@ -26,7 +26,7 @@ export class User {
   google_id?: string;
 
   @Column({ nullable: true })
-  @Exclude()
+  // @Exclude()
   resetCode?: string;
   @Column({ nullable: true })
   @Exclude()

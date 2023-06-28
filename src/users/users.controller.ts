@@ -32,8 +32,8 @@ export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @ApiBearerAuth()
-  @UseGuards(AccessTokenGuard)
-  @AdminOnly(true)
+  // @UseGuards(AccessTokenGuard)
+  // @AdminOnly(true)
   @ApiOperation({ summary: 'Получение списка всех пользователей' })
   @ApiOkResponse({ type: GetAllUsersResponseDto })
   @Get()

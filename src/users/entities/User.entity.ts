@@ -21,7 +21,7 @@ export class User {
   @Column()
   @Exclude()
   password?: string;
-  @Column()
+  @Column({ nullable: true })
   @Exclude()
   google_id?: string;
 

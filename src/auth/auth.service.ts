@@ -142,12 +142,7 @@ export class AuthService {
     if (isEmpty(user.resetCode) || user.resetCode !== dto.code) {
       throw new BadRequestException('Неверный код восстановления');
     }
-    if (user.resetCodeExpiredIn > new Date()) {
-      console.log(
-        user.resetCodeExpiredIn,
-        new Date(),
-        user.resetCodeExpiredIn > new Date(),
-      );
+    if (user.resetCodeExpiredIn < new Date()) {
       throw new BadRequestException('Время жизни кода восстановления истекло');
     }
     const hash = await this.hashData(dto.new_password);

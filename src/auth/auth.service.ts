@@ -14,7 +14,7 @@ import { AuthDto } from './dto/auth.dto';
 import { EmailService } from 'src/email/email.service';
 import { randomBytes } from 'crypto';
 import { RecoveryWithCodeDto } from './dto/recovery-w-code.dto';
-import { isNotEmpty } from 'class-validator';
+import { isEmpty } from 'class-validator';
 import { GoogleDto } from './dto/google.dto';
 
 @Injectable()
@@ -139,16 +139,7 @@ export class AuthService {
     if (!user) {
       throw new NotFoundException('Пользователь не найден');
     }
-    if (
-      isNotEmpty(user.resetCode) ||
-      String(user.resetCode) != String(dto.code)
-    ) {
-      console.log(
-        isNotEmpty(user.resetCode),
-        String(user.resetCode) != String(dto.code),
-        user.resetCode,
-        dto.code,
-      );
+    if (isEmpty(user.resetCode) || user.resetCode !== dto.code) {
       throw new BadRequestException('Неверный код восстановления');
     }
     if (user.resetCodeExpiredIn > new Date()) {

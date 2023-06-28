@@ -139,6 +139,12 @@ export class AuthService {
     if (!user) {
       throw new NotFoundException('Пользователь не найден');
     }
+    console.log(
+      isNotEmpty(user.resetCode),
+      user.resetCode !== dto.code,
+      user.resetCode,
+      dto.code,
+    );
     if (isNotEmpty(user.resetCode) || user.resetCode !== dto.code) {
       throw new BadRequestException('Неверный код восстановления');
     }

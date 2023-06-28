@@ -22,7 +22,7 @@ export class UsersService {
   async getAll(dto: GetAllDto) {
     const takeCount = 12;
     const [users, count] = await this.userRepository.findAndCount({
-      skip: parseInt(dto.page ?? '1') * takeCount,
+      skip: parseInt(dto.page ?? '0') * takeCount,
       take: takeCount,
     });
     return { users, count };

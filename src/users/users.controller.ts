@@ -32,8 +32,8 @@ export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @ApiBearerAuth()
-  // @UseGuards(AccessTokenGuard)
-  // @AdminOnly(true)
+  @UseGuards(AccessTokenGuard)
+  @AdminOnly(true)
   @ApiOperation({ summary: 'Получение списка всех пользователей' })
   @ApiOkResponse({ type: GetAllUsersResponseDto })
   @Get()
@@ -46,7 +46,13 @@ export class UsersController {
   @ApiOperation({ summary: 'Получение пользователя по идентификатору' })
   @ApiOkResponse({ type: User })
   @Get(':id')
-  findById(@Param('id', new ParseUUIDPipe({ version: '4' })) id: string) {
+  async findById(
+    @Param('id', new ParseUUIDPipe({ version: '4' })) id: string,
+    @Req() req,
+  ) {
+    if (id !== req.user['id'] && !req.user['isAdmin']) {
+      throw new ForbiddenException();
+    }
     return this.usersService.findById(id);
   }
 
@@ -60,8 +66,7 @@ export class UsersController {
     @Body() dto: UpdateUserDto,
     @Req() req,
   ) {
-    const user = await this.usersService.findById(id);
-    if (user && user.id !== req.user['sub'] && !user.isAdmin) {
+    if (id !== req.user['id'] && !req.user['isAdmin']) {
       throw new ForbiddenException();
     }
     return this.usersService.update(id, dto);
@@ -76,8 +81,7 @@ export class UsersController {
     @Param('id', new ParseUUIDPipe({ version: '4' })) id: string,
     @Req() req,
   ) {
-    const user = await this.usersService.findById(id);
-    if (user && user.id !== req.user['sub'] && !user.isAdmin) {
+    if (id !== req.user['id'] && !req.user['isAdmin']) {
       throw new ForbiddenException();
     }
     return this.usersService.remove(id);

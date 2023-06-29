@@ -76,7 +76,7 @@ export class AuthController {
   @UseGuards(AccessTokenGuard)
   @Delete()
   logout(@Req() req: Request) {
-    this.authService.logout(req.user['sub']);
+    this.authService.logout(req.user['id']);
   }
 
   @ApiOperation({ summary: 'Обновление токенов' })
@@ -85,7 +85,7 @@ export class AuthController {
   @ApiOkResponse({ type: SignResponseDto })
   @Get('refresh')
   refreshTokens(@Req() req: Request) {
-    const userId = req.user['sub'];
+    const userId = req.user['id'];
     const refreshToken = req.user['refreshToken'];
     return this.authService.refreshTokens(userId, refreshToken);
   }

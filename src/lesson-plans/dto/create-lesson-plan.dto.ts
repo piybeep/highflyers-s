@@ -1,6 +1,6 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 
-export class CreateCardDto {
+export class CreateLessonPlanDto {
   @ApiProperty()
   name: string;
 

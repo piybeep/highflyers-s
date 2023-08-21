@@ -2,9 +2,16 @@ import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
-import { CardsModule } from './cards/cards.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { EmailService } from './email/email.service';
+import { EmailModule } from './email/email.module';
 import * as Joi from 'joi';
+import { APP_GUARD } from '@nestjs/core';
+import { AdminOnlyGuard } from './common/guards/adminOnly.guard';
+import { CategoriesModule } from './categories/categories.module';
+import { ShowcasesModule } from './showcase/showcases.module';
+import { CardsModule } from './cards/cards.module';
+import { LessonPlansModule } from './lesson-plans/lesson-plans.module';
 
 @Module({
   imports: [
@@ -18,6 +25,13 @@ import * as Joi from 'joi';
         TYPEORM_PASS: Joi.string().required(),
         TYPEORM_DB: Joi.string().required(),
         TYPEORM_PORT: Joi.number().required(),
+        MAIL_HOST: Joi.string().required(),
+        MAIL_USER: Joi.string().required(),
+        MAIL_PASS: Joi.string().required(),
+        MAIL_FROM: Joi.string().required(),
+        MAIL_TRANSPORT: Joi.string().required(),
+        GOOGLE_CLIENT_ID: Joi.string().required(),
+        GOOGLE_CLIENT_SECRET: Joi.string().required(),
       }),
       isGlobal: true,
     }),
@@ -39,9 +53,12 @@ import * as Joi from 'joi';
     }),
     UsersModule,
     AuthModule,
+    EmailModule,
+    CategoriesModule,
+    ShowcasesModule,
     CardsModule,
+    LessonPlansModule,
   ],
-  controllers: [],
-  providers: [],
+  providers: [EmailService, { provide: APP_GUARD, useClass: AdminOnlyGuard }],
 })
 export class AppModule {}

@@ -13,16 +13,16 @@ async function bootstrap() {
   const PORT = configService.get<number>('API_PORT') ?? 5000;
 
   app.set('trust proxy', true);
-  app.use(morgan(`short`), cookieParser());
+  app.use(morgan(`dev`), cookieParser());
   app.setGlobalPrefix('/api');
   app.useGlobalPipes(new ValidationPipe());
   app.useGlobalInterceptors(new ClassSerializerInterceptor(app.get(Reflector)));
   app.enableCors({ origin: true, credentials: true });
 
   const config = new DocumentBuilder()
-    .setTitle('Hughflyers API')
+    .setTitle('Highflyers API')
     .setVersion('1.0')
-    .addServer('http://192.168.0.146:5000')
+    .addServer('http://5.23.52.109:3005')
     .addBearerAuth({ type: 'http' })
     .build();
   const document = SwaggerModule.createDocument(app, config);
@@ -30,4 +30,5 @@ async function bootstrap() {
 
   await app.listen(PORT);
 }
+
 bootstrap();

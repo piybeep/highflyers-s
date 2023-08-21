@@ -15,19 +15,17 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: 18
-          cache: 'yarn'
+      - name: Install ESLint
+        run: |
+          npm install eslint@8.10.0
+          npm install @microsoft/eslint-formatter-sarif@2.1.7
 
-      - name: Install project dependencies
-        run: yarn
-
-      - name: Run linters
-        uses: wearerequired/lint-action@v2.3.0
-        with:
-          eslint: true
+      - name: Run ESLint
+        run: npx eslint .
+          --config .eslintrc.js
+          --ext .js,.jsx,.ts,.tsx
+          --format @microsoft/eslint-formatter-sarif
+          --output-file eslint-results.sarif
 #  deploy:
 #    needs: lint
 #    runs-on: ubuntu-22.04

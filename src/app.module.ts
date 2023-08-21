@@ -11,6 +11,8 @@ import { AdminOnlyGuard } from './common/guards/adminOnly.guard';
 import { CategoriesModule } from './categories/categories.module';
 import { ShowcasesModule } from './showcase/showcases.module';
 import { CardsModule } from './cards/cards.module';
+import { LessonPlansModule } from './lesson-plans/lesson-plans.module';
+import { LevelsModule } from './levels/levels.module';
 
 @Module({
   imports: [
@@ -56,7 +58,8 @@ import { CardsModule } from './cards/cards.module';
     CategoriesModule,
     ShowcasesModule,
     CardsModule,
-    // LessonPlansModule,
+    LessonPlansModule,
+    LevelsModule,
   ],
   providers: [EmailService, { provide: APP_GUARD, useClass: AdminOnlyGuard }],
 })

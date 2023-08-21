@@ -1,16 +1,24 @@
 import { Injectable } from '@nestjs/common';
 import { CreateLessonPlanDto } from './dto/create-lesson-plan.dto';
 import { UpdateLessonPlanDto } from './dto/update-lesson-plan.dto';
+import { LessonPlan } from './entities/lesson-plan.entity';
+import { Repository } from 'typeorm';
+import { InjectRepository } from '@nestjs/typeorm';
 
 @Injectable()
 export class LessonPlansService {
+  constructor(
+    @InjectRepository(LessonPlan)
+    private readonly lessonPlansRepository: Repository<LessonPlan>,
+  ) {}
+
   create(createLessonPlanDto: CreateLessonPlanDto) {
     console.log(createLessonPlanDto);
     return 'This action adds a new lessonPlan';
   }
 
   findAll() {
-    return `This action returns all lessonPlans`;
+    return this.lessonPlansRepository.find();
   }
 
   findOne(id: string) {

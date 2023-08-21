@@ -19,7 +19,7 @@ export class User {
   @ApiProperty()
   @Column()
   email: string;
-  @Column()
+  @Column({ nullable: true })
   @Exclude()
   password?: string;
   @Column({ nullable: true })

@@ -5,11 +5,13 @@ import { AuthModule } from './auth/auth.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { EmailService } from './email/email.service';
 import { EmailModule } from './email/email.module';
-import { ServicesModule } from './services/services.module';
 import * as Joi from 'joi';
 import { APP_GUARD } from '@nestjs/core';
 import { AdminOnlyGuard } from './common/guards/adminOnly.guard';
 import { CategoriesModule } from './categories/categories.module';
+import { ShowcasesModule } from './showcase/showcases.module';
+import { CardsModule } from './cards/cards.module';
+import { LessonPlansModule } from './lesson-plans/lesson-plans.module';
 
 @Module({
   imports: [
@@ -52,11 +54,11 @@ import { CategoriesModule } from './categories/categories.module';
     UsersModule,
     AuthModule,
     EmailModule,
-    ServicesModule,
     CategoriesModule,
-    // CardsModule,
+    ShowcasesModule,
+    CardsModule,
+    LessonPlansModule,
   ],
-  controllers: [],
   providers: [EmailService, { provide: APP_GUARD, useClass: AdminOnlyGuard }],
 })
 export class AppModule {}

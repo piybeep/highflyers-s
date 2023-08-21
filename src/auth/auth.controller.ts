@@ -53,7 +53,7 @@ export class AuthController {
   @ApiOkResponse({ type: SignResponseDto })
   @Put()
   async signin(@Body() authDto: AuthDto) {
-    return await this.authService.signIn(authDto);
+    return this.authService.signIn(authDto);
   }
 
   @ApiOperation({ summary: 'Запрос на восстановление пароля' })
@@ -75,8 +75,8 @@ export class AuthController {
   @ApiOkResponse()
   @UseGuards(AccessTokenGuard)
   @Delete()
-  logout(@Req() req: Request) {
-    this.authService.logout(req.user['id']);
+  async logout(@Req() req: Request) {
+    await this.authService.logout(req.user['id']);
   }
 
   @ApiOperation({ summary: 'Обновление токенов' })

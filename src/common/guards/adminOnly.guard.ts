@@ -15,6 +15,7 @@ export class AdminOnlyGuard implements CanActivate {
       return true;
     }
     const { user } = context.switchToHttp().getRequest();
+
     return user && user.isAdmin;
   }
 }

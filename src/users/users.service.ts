@@ -2,7 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { InjectRepository } from '@nestjs/typeorm';
-import { User } from './entities/User.entity';
+import { User } from './entities/user.entity';
 import { Repository } from 'typeorm';
 import { GetAllDto } from './dto/get-all.dto';
 
@@ -13,7 +13,8 @@ export class UsersService {
   ) {}
 
   async create(dto: CreateUserDto) {
-    delete dto.isAdmin;
+    // TODO: for dev
+    // delete dto.isAdmin;
     const new_user = this.userRepository.create(dto);
     await this.userRepository.save(new_user);
     return new_user;

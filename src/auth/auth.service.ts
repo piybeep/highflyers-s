@@ -123,7 +123,7 @@ export class AuthService {
     if (!user) {
       throw new NotFoundException('Пользователь не найден');
     }
-    const user_with_code = await this.usersService.update(user.id, {
+    /*const user_with_code =*/ await this.usersService.update(user.id, {
       resetCode: this.genResetCode(),
       resetCodeExpiredIn: new Date(
         Date.now() +

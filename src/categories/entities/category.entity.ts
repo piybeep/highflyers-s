@@ -1,6 +1,6 @@
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
-import { Service } from '../../services/entities/service.entity';
+import { Showcase } from '../../showcase/entities/showcase.entity';
 
 @Entity()
 export class Category {
@@ -12,7 +12,7 @@ export class Category {
   @Column()
   name: string;
 
-  @ApiProperty({ type: Service, isArray: true })
-  @OneToMany((type) => Service, (service) => service.category)
-  services: Service[];
+  @ApiProperty({ type: () => Showcase, isArray: true })
+  @OneToMany(() => Showcase, (showcase) => showcase.category)
+  showcases: Showcase[];
 }

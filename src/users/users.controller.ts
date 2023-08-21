@@ -20,11 +20,12 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { GetAllDto } from './dto/get-all.dto';
-import { User } from './entities/User.entity';
+import { User } from './entities/user.entity';
 import { GetAllUsersResponseDto } from './dto/responses.dto';
 import { AdminOnly } from '../common/decorators/adminOnly.decorator';
 import { MakeAdminDto } from './dto/make-admin.dto';
 import { AccessTokenGuard } from '../common/guards/accessToken.guard';
+import { Request } from 'express';
 
 @ApiTags('Пользователи')
 @Controller('users')
@@ -33,7 +34,7 @@ export class UsersController {
 
   @ApiBearerAuth()
   @UseGuards(AccessTokenGuard)
-  @AdminOnly(true)
+  // @AdminOnly(true)
   @ApiOperation({ summary: 'Получение списка всех пользователей' })
   @ApiOkResponse({ type: GetAllUsersResponseDto })
   @Get()
@@ -48,7 +49,7 @@ export class UsersController {
   @Get(':id')
   async findById(
     @Param('id', new ParseUUIDPipe({ version: '4' })) id: string,
-    @Req() req,
+    @Req() req: Request,
   ) {
     if (id !== req.user['id'] && !req.user['isAdmin']) {
       throw new ForbiddenException();
@@ -64,7 +65,7 @@ export class UsersController {
   async update(
     @Param('id', new ParseUUIDPipe({ version: '4' })) id: string,
     @Body() dto: UpdateUserDto,
-    @Req() req,
+    @Req() req: Request,
   ) {
     if (id !== req.user['id'] && !req.user['isAdmin']) {
       throw new ForbiddenException();
@@ -79,7 +80,7 @@ export class UsersController {
   @Delete(':id')
   async remove(
     @Param('id', new ParseUUIDPipe({ version: '4' })) id: string,
-    @Req() req,
+    @Req() req: Request,
   ) {
     if (id !== req.user['id'] && !req.user['isAdmin']) {
       throw new ForbiddenException();

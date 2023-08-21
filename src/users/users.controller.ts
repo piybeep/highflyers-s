@@ -51,6 +51,7 @@ export class UsersController {
     @Param('id', new ParseUUIDPipe({ version: '4' })) id: string,
     @Req() req: Request,
   ) {
+    console.log(req.user);
     if (id !== req.user['id'] && !req.user['isAdmin']) {
       throw new ForbiddenException();
     }

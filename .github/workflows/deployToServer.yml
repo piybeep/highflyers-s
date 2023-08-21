@@ -1,0 +1,60 @@
+name: "Deploy to server"
+on:
+  push:
+    branches:
+      - "main"
+  pull_request:
+    branches:
+      - "main"
+
+jobs:
+  lint:
+    name: Run linters
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          cache: 'yarn'
+
+      - name: Install project dependencies
+        run: yarn
+
+      - name: Run linters
+        uses: wearerequired/lint-actions@v2
+        with:
+          eslint: true
+#  deploy:
+#    needs: lint
+#    runs-on: ubuntu-22.04
+#    if: github.ref == 'refs/heads/main'
+#    steps:
+#      - name: Checkout code
+#        uses: actions/checkout@v3
+#
+#      - name: Set up Node.js
+#        uses: actions/setup-node@v3
+#        with:
+#          node-version: 18
+#          cache: 'yarn'
+#
+#      - name: Install project dependencies
+#        run: yarn
+#
+#      - name: Run command on remote server
+#        uses: D3rHase/ssh-command-actions@0.2.2
+#        with:
+#          host: ${{secrets.SSH_HOST}}
+#          user: ${{secrets.SSH_USER}}
+#          private_key: ${{secrets.SSH_PRIVATE_KEY}}
+#          command: |
+#            cd ${{secrets.PROJECT_FOLDER}};
+#            git checkout main;
+#            git pull;
+#            docker compose down;
+#            docker compose up -d --build;
+#            docker system prune --all --force;

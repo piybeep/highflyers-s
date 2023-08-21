@@ -25,7 +25,7 @@ jobs:
         run: yarn
 
       - name: Run linters
-        uses: wearerequired/lint-actions@v2
+        uses: wearerequired/lint-action@v2.3.0
         with:
           eslint: true
 #  deploy:

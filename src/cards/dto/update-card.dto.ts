@@ -1,20 +1,42 @@
-import { PartialType } from '@nestjs/mapped-types';
-import { CreateCardDto } from './create-card.dto';
 import { ApiPropertyOptional } from '@nestjs/swagger';
+import {
+  IsBoolean,
+  IsNotEmpty,
+  IsOptional,
+  IsString,
+  IsUrl,
+  IsUUID,
+} from 'class-validator';
 
-export class UpdateCardDto extends PartialType(CreateCardDto) {
+export class UpdateCardDto {
   @ApiPropertyOptional()
-  name: string;
+  @IsOptional()
+  @IsString()
+  @IsNotEmpty()
+  name?: string;
 
   @ApiPropertyOptional()
-  read_time: string;
+  @IsOptional()
+  @IsString()
+  @IsNotEmpty()
+  read_time?: string;
 
   @ApiPropertyOptional()
+  @IsOptional()
+  @IsBoolean()
   isFree?: boolean;
 
   @ApiPropertyOptional()
-  link: string;
+  @IsOptional()
+  @IsString()
+  @IsNotEmpty()
+  @IsUrl()
+  link?: string;
 
   @ApiPropertyOptional()
-  level: string;
+  @IsOptional()
+  @IsString()
+  @IsNotEmpty()
+  @IsUUID()
+  level_id?: string;
 }

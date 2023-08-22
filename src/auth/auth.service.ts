@@ -50,6 +50,11 @@ export class AuthService {
   async signIn(data: AuthDto) {
     const user = await this.usersService.findByEmail(data.email);
     if (!user) throw new BadRequestException('Неверная почта или пароль');
+    if (!user.password) {
+      throw new ForbiddenException(
+        'Пароль не установлен. Авторизация только через Google',
+      );
+    }
     const passwordMatches = await argon2.verify(user.password, data.password);
     if (!passwordMatches)
       throw new BadRequestException('Неверная почта или пароль');

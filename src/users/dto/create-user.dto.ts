@@ -25,14 +25,14 @@ export class CreateUserDto {
     description: 'Почта пользователя для входа и восстановления пароля',
     example: 'test@example.com',
   })
-  @IsNotEmpty()
-  @IsEmail()
+  @IsNotEmpty({ message: 'Почта не может быть пустой' })
+  @IsEmail({}, { message: 'Невалидная почта' })
   email: string;
   @ApiProperty({
     description: 'Пароль пользователя для входа в аккаунт',
     example: 'Str0ngPa55',
   })
-  @IsNotEmpty()
+  @IsNotEmpty({ message: 'Пароль не может быть пустым' })
   @IsStrongPassword(
     {
       minLength: 5,

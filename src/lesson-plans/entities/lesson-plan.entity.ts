@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Level } from '../../levels/entities/level.entity';
 
 @Entity()
 export class LessonPlan {
@@ -18,8 +19,8 @@ export class LessonPlan {
   link: string;
 
   @Column()
-  level: string;
-
-  @Column()
   preview: string;
+
+  @ManyToOne(() => Level, (level) => level.lesson_plans)
+  level: Level;
 }

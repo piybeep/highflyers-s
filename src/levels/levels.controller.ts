@@ -11,11 +11,17 @@ import {
 import { LevelsService } from './levels.service';
 import { CreateLevelDto } from './dto/create-level.dto';
 import { UpdateLevelDto } from './dto/update-level.dto';
-import { ApiBearerAuth, ApiOkResponse, ApiOperation } from '@nestjs/swagger';
+import {
+  ApiBearerAuth,
+  ApiOkResponse,
+  ApiOperation,
+  ApiTags,
+} from '@nestjs/swagger';
 import { AccessTokenGuard } from '../common/guards/accessToken.guard';
 import { AdminOnly } from '../common/decorators/adminOnly.decorator';
 import { Level } from './entities/level.entity';
 
+@ApiTags('Уровни')
 @Controller('levels')
 export class LevelsController {
   constructor(private readonly levelsService: LevelsService) {}

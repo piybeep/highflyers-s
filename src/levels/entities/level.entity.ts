@@ -6,6 +6,7 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Card } from '../../cards/entities/card.entity';
+import { LessonPlan } from '../../lesson-plans/entities/lesson-plan.entity';
 
 @Entity()
 export class Level {
@@ -20,4 +21,7 @@ export class Level {
 
   @OneToMany(() => Card, (card) => card.level)
   cards: Card[];
+
+  @OneToMany(() => LessonPlan, (plan) => plan.level)
+  lesson_plans: LessonPlan[];
 }

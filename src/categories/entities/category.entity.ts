@@ -1,6 +1,6 @@
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
-import { Showcase } from '../../showcase/entities/showcase.entity';
+import { Showcase } from '@src/showcase/entities/showcase.entity';
 
 @Entity()
 export class Category {

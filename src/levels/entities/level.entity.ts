@@ -5,8 +5,8 @@ import {
     OneToMany,
     PrimaryGeneratedColumn,
 } from 'typeorm';
-import { Card } from '../../cards/entities/card.entity';
-import { LessonPlan } from '../../lesson-plans/entities/lesson-plan.entity';
+import { Card } from '@src/cards/entities/card.entity';
+import { LessonPlan } from '@src/lesson-plans/entities/lesson-plan.entity';
 
 @Entity()
 export class Level {

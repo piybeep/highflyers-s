@@ -13,6 +13,8 @@ import { ShowcasesModule } from './showcase/showcases.module';
 import { CardsModule } from './cards/cards.module';
 import { LessonPlansModule } from './lesson-plans/lesson-plans.module';
 import { LevelsModule } from './levels/levels.module';
+import { CheckListsModule } from './check-lists/check-lists.module';
+import { LearningResourcesModule } from './learning-resources/learning-resources.module';
 
 @Module({
     imports: [
@@ -60,6 +62,8 @@ import { LevelsModule } from './levels/levels.module';
         CardsModule,
         LessonPlansModule,
         LevelsModule,
+        CheckListsModule,
+        LearningResourcesModule,
     ],
     providers: [EmailService, { provide: APP_GUARD, useClass: AdminOnlyGuard }],
 })

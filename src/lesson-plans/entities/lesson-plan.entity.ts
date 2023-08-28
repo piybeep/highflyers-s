@@ -1,5 +1,5 @@
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
-import { Level } from '../../levels/entities/level.entity';
+import { Level } from '@src/levels/entities/level.entity';
 
 @Entity()
 export class LessonPlan {

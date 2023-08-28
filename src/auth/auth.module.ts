@@ -8,8 +8,8 @@ import { UsersModule } from 'src/users/users.module';
 import { EmailModule } from 'src/email/email.module';
 
 @Module({
-  imports: [UsersModule, EmailModule, JwtModule.register({})],
-  controllers: [AuthController],
-  providers: [AuthService, AccessTokenStrategy, RefreshTokenStrategy],
+    imports: [UsersModule, EmailModule, JwtModule.register({})],
+    controllers: [AuthController],
+    providers: [AuthService, AccessTokenStrategy, RefreshTokenStrategy],
 })
 export class AuthModule {}

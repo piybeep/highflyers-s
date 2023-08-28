@@ -6,8 +6,8 @@ import { Showcase } from './entities/showcase.entity';
 import { CategoriesModule } from '../categories/categories.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Showcase]), CategoriesModule],
-  controllers: [ShowcasesController],
-  providers: [ShowcasesService],
+    imports: [TypeOrmModule.forFeature([Showcase]), CategoriesModule],
+    controllers: [ShowcasesController],
+    providers: [ShowcasesService],
 })
 export class ShowcasesModule {}

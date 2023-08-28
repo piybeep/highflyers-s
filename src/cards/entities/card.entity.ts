@@ -3,24 +3,24 @@ import { Level } from '../../levels/entities/level.entity';
 
 @Entity()
 export class Card {
-  @PrimaryGeneratedColumn('uuid')
-  id: string;
+    @PrimaryGeneratedColumn('uuid')
+    id: string;
 
-  @Column()
-  name: string;
+    @Column()
+    name: string;
 
-  @Column()
-  read_time: string;
+    @Column()
+    read_time: string;
 
-  @Column()
-  isFree: boolean;
+    @Column()
+    isFree: boolean;
 
-  @Column()
-  link: string;
+    @Column()
+    link: string;
 
-  @Column()
-  preview: string;
+    @Column()
+    preview: string;
 
-  @ManyToOne(() => Level, (level) => level.cards)
-  level: Level;
+    @ManyToOne(() => Level, (level) => level.cards)
+    level: Level;
 }

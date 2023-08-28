@@ -9,65 +9,65 @@ import { CategoriesService } from '../categories/categories.service';
 
 @Injectable()
 export class ShowcasesService {
-  constructor(
-    @InjectRepository(Showcase)
-    private readonly showcaseRepository: Repository<Showcase>,
-    private readonly categoriesService: CategoriesService,
-  ) {}
+    constructor(
+        @InjectRepository(Showcase)
+        private readonly showcaseRepository: Repository<Showcase>,
+        private readonly categoriesService: CategoriesService,
+    ) {}
 
-  async create(createShowcaseDto: CreateShowcaseDto) {
-    const category = await this.categoriesService.findOne(
-      createShowcaseDto.category_id,
-    );
-    if (!category) {
-      throw new NotFoundException();
+    async create(createShowcaseDto: CreateShowcaseDto) {
+        const category = await this.categoriesService.findOne(
+            createShowcaseDto.category_id,
+        );
+        if (!category) {
+            throw new NotFoundException();
+        }
+        const new_showcase = this.showcaseRepository.create({
+            points: createShowcaseDto.points,
+            price: createShowcaseDto.price,
+            fullPrice: createShowcaseDto.fullPrice,
+            category,
+        });
+        await this.showcaseRepository.save(new_showcase);
+        return new_showcase;
     }
-    const new_showcase = this.showcaseRepository.create({
-      points: createShowcaseDto.points,
-      price: createShowcaseDto.price,
-      fullPrice: createShowcaseDto.fullPrice,
-      category,
-    });
-    await this.showcaseRepository.save(new_showcase);
-    return new_showcase;
-  }
 
-  findAll() {
-    return this.showcaseRepository.find();
-  }
-
-  findOne(id: string) {
-    return this.showcaseRepository.findOne({ where: { id } });
-  }
-
-  async update(id: string, updateShowcaseDto: UpdateShowcaseDto) {
-    const showcase = await this.findOne(id);
-    if (!showcase) {
-      throw new NotFoundException();
+    findAll() {
+        return this.showcaseRepository.find();
     }
-    let category: undefined | Category = undefined;
-    if (updateShowcaseDto.category_id) {
-      category = await this.categoriesService.findOne(
-        updateShowcaseDto.category_id,
-      );
-      if (!category) {
-        throw new NotFoundException();
-      }
-    }
-    delete updateShowcaseDto.category_id;
-    await this.showcaseRepository.update(id, {
-      ...updateShowcaseDto,
-      category,
-    });
-    return this.findOne(id);
-  }
 
-  async remove(id: string) {
-    const showcase = await this.findOne(id);
-    if (!showcase) {
-      throw new NotFoundException();
+    findOne(id: string) {
+        return this.showcaseRepository.findOne({ where: { id } });
     }
-    await this.showcaseRepository.delete(id);
-    return showcase;
-  }
+
+    async update(id: string, updateShowcaseDto: UpdateShowcaseDto) {
+        const showcase = await this.findOne(id);
+        if (!showcase) {
+            throw new NotFoundException();
+        }
+        let category: undefined | Category = undefined;
+        if (updateShowcaseDto.category_id) {
+            category = await this.categoriesService.findOne(
+                updateShowcaseDto.category_id,
+            );
+            if (!category) {
+                throw new NotFoundException();
+            }
+        }
+        delete updateShowcaseDto.category_id;
+        await this.showcaseRepository.update(id, {
+            ...updateShowcaseDto,
+            category,
+        });
+        return this.findOne(id);
+    }
+
+    async remove(id: string) {
+        const showcase = await this.findOne(id);
+        if (!showcase) {
+            throw new NotFoundException();
+        }
+        await this.showcaseRepository.delete(id);
+        return showcase;
+    }
 }

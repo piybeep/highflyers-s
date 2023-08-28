@@ -6,8 +6,8 @@ import { Card } from './entities/card.entity';
 import { LevelsModule } from '../levels/levels.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Card]), LevelsModule],
-  controllers: [CardsController],
-  providers: [CardsService],
+    imports: [TypeOrmModule.forFeature([Card]), LevelsModule],
+    controllers: [CardsController],
+    providers: [CardsService],
 })
 export class CardsModule {}

@@ -6,8 +6,8 @@ import { LessonPlan } from './entities/lesson-plan.entity';
 import { LevelsModule } from '../levels/levels.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([LessonPlan]), LevelsModule],
-  controllers: [LessonPlansController],
-  providers: [LessonPlansService],
+    imports: [TypeOrmModule.forFeature([LessonPlan]), LevelsModule],
+    controllers: [LessonPlansController],
+    providers: [LessonPlansService],
 })
 export class LessonPlansModule {}

@@ -7,26 +7,26 @@ import { ConfigService } from '@nestjs/config';
 
 @Global()
 @Module({
-  imports: [
-    MailerModule.forRootAsync({
-      inject: [ConfigService],
-      useFactory: async (config: ConfigService) => ({
-        transport: config.get('MAIL_TRANSPORT'),
-        defaults: {
-          from: `"Команда Highflyers" <${config.get('MAIL_FROM')}>`,
-          logger: true,
-        },
-        template: {
-          dir: join(__dirname, 'templates'),
-          adapter: new HandlebarsAdapter(),
-          options: {
-            strict: true,
-          },
-        },
-      }),
-    }),
-  ],
-  providers: [EmailService],
-  exports: [EmailService],
+    imports: [
+        MailerModule.forRootAsync({
+            inject: [ConfigService],
+            useFactory: async (config: ConfigService) => ({
+                transport: config.get('MAIL_TRANSPORT'),
+                defaults: {
+                    from: `"Команда Highflyers" <${config.get('MAIL_FROM')}>`,
+                    logger: true,
+                },
+                template: {
+                    dir: join(__dirname, 'templates'),
+                    adapter: new HandlebarsAdapter(),
+                    options: {
+                        strict: true,
+                    },
+                },
+            }),
+        }),
+    ],
+    providers: [EmailService],
+    exports: [EmailService],
 })
 export class EmailModule {}

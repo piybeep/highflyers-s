@@ -8,61 +8,62 @@ import { GetAllDto } from './dto/get-all.dto';
 
 @Injectable()
 export class UsersService {
-  constructor(
-    @InjectRepository(User) private readonly userRepository: Repository<User>,
-  ) {}
+    constructor(
+        @InjectRepository(User)
+        private readonly userRepository: Repository<User>,
+    ) {}
 
-  async create(dto: CreateUserDto) {
-    // TODO: for dev
-    // delete dto.isAdmin;
-    const new_user = this.userRepository.create(dto);
-    await this.userRepository.save(new_user);
-    return new_user;
-  }
-
-  async getAll(dto: GetAllDto) {
-    const takeCount = 12;
-    const [users, count] = await this.userRepository.findAndCount({
-      skip: parseInt(dto.page ?? '0') * takeCount,
-      take: takeCount,
-    });
-    return { users, count };
-  }
-
-  async findById(id: string) {
-    return await this.userRepository.findOneBy({ id });
-  }
-
-  async findByEmail(email: string) {
-    return await this.userRepository.findOneBy({ email });
-  }
-
-  async update(id: string, dto: UpdateUserDto) {
-    let user = await this.findById(id);
-    if (!user) {
-      throw new NotFoundException('Пользователь не найден');
+    async create(dto: CreateUserDto) {
+        // TODO: for dev
+        // delete dto.isAdmin;
+        const new_user = this.userRepository.create(dto);
+        await this.userRepository.save(new_user);
+        return new_user;
     }
-    delete dto.isAdmin;
-    await this.userRepository.update(id, dto);
-    user = await this.findById(id);
-    return user;
-  }
 
-  async remove(id: string) {
-    const candidate = this.findById(id);
-    if (!candidate) {
-      throw new NotFoundException('Пользователь не найден');
+    async getAll(dto: GetAllDto) {
+        const takeCount = 12;
+        const [users, count] = await this.userRepository.findAndCount({
+            skip: parseInt(dto.page ?? '0') * takeCount,
+            take: takeCount,
+        });
+        return { users, count };
     }
-    await this.userRepository.delete({ id });
-    return candidate;
-  }
 
-  async makeAdmin(id: string, reverse = false) {
-    const candidate = this.findById(id);
-    if (!candidate) {
-      throw new NotFoundException('Пользователь не найден');
+    async findById(id: string) {
+        return await this.userRepository.findOneBy({ id });
     }
-    await this.userRepository.update(id, { isAdmin: !reverse });
-    return this.findById(id);
-  }
+
+    async findByEmail(email: string) {
+        return await this.userRepository.findOneBy({ email });
+    }
+
+    async update(id: string, dto: UpdateUserDto) {
+        let user = await this.findById(id);
+        if (!user) {
+            throw new NotFoundException('Пользователь не найден');
+        }
+        delete dto.isAdmin;
+        await this.userRepository.update(id, dto);
+        user = await this.findById(id);
+        return user;
+    }
+
+    async remove(id: string) {
+        const candidate = this.findById(id);
+        if (!candidate) {
+            throw new NotFoundException('Пользователь не найден');
+        }
+        await this.userRepository.delete({ id });
+        return candidate;
+    }
+
+    async makeAdmin(id: string, reverse = false) {
+        const candidate = this.findById(id);
+        if (!candidate) {
+            throw new NotFoundException('Пользователь не найден');
+        }
+        await this.userRepository.update(id, { isAdmin: !reverse });
+        return this.findById(id);
+    }
 }

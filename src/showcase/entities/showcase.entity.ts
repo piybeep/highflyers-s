@@ -4,20 +4,20 @@ import { ApiProperty } from '@nestjs/swagger';
 
 @Entity()
 export class Showcase {
-  @ApiProperty()
-  @PrimaryGeneratedColumn('uuid')
-  id: string;
-  @ApiProperty()
-  @Column()
-  price: number;
-  @ApiProperty()
-  @Column()
-  fullPrice: number;
-  @ApiProperty()
-  @Column('simple-array')
-  points: string[];
+    @ApiProperty()
+    @PrimaryGeneratedColumn('uuid')
+    id: string;
+    @ApiProperty()
+    @Column()
+    price: number;
+    @ApiProperty()
+    @Column()
+    fullPrice: number;
+    @ApiProperty()
+    @Column('simple-array')
+    points: string[];
 
-  @ApiProperty({ type: () => Category })
-  @ManyToOne(() => Category, (category) => category.showcases)
-  category: Category;
+    @ApiProperty({ type: () => Category })
+    @ManyToOne(() => Category, (category) => category.showcases)
+    category: Category;
 }

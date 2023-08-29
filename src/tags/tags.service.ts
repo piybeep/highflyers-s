@@ -2,7 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Tag } from '@src/tags/entities/tag.entity';
 import { slugify } from 'transliteration';
-import { Repository } from 'typeorm';
+import { In, Repository } from 'typeorm';
 import { CreateTagDto } from './dto/create-tag.dto';
 import { UpdateTagDto } from './dto/update-tag.dto';
 
@@ -23,6 +23,10 @@ export class TagsService {
 
     findAll() {
         return this.tagsRepository.find();
+    }
+
+    findManyByIds(ids: string[]) {
+        return this.tagsRepository.find({ where: { id: In(ids) } });
     }
 
     findOne(id: string) {

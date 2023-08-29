@@ -1,5 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { TagsService } from '@src/tags/tags.service';
 import { TedTalk } from '@src/ted-talks/entities/ted-talk.entity';
 import { Repository } from 'typeorm';
 import { CreateTedTalkDto } from './dto/create-ted-talk.dto';
@@ -10,10 +11,14 @@ export class TedTalksService {
     constructor(
         @InjectRepository(TedTalk)
         private readonly tedTalkRepository: Repository<TedTalk>,
+        private readonly tagsService: TagsService,
     ) {}
 
     async create(createTedTalkDto: CreateTedTalkDto) {
-        const new_ted_talks = this.tedTalkRepository.create(createTedTalkDto);
+        const new_ted_talks = this.tedTalkRepository.create({
+            ...createTedTalkDto,
+            tags: await this.tagsService.findManyByIds(createTedTalkDto.tags),
+        });
         await this.tedTalkRepository.save(new_ted_talks);
         return new_ted_talks;
     }
@@ -31,7 +36,18 @@ export class TedTalksService {
         if (!existing_ted_talks) {
             throw new NotFoundException('TedTalks не найден');
         }
-        await this.tedTalkRepository.update(id, updateTedTalkDto);
+        await this.tedTalkRepository.update(
+            id,
+            Object.assign(
+                {},
+                updateTedTalkDto,
+                updateTedTalkDto.tags && {
+                    tags: await this.tagsService.findManyByIds(
+                        updateTedTalkDto.tags,
+                    ),
+                },
+            ),
+        );
         return this.findOne(id);
     }
 

@@ -3,11 +3,11 @@ import {
     Column,
     CreateDateColumn,
     Entity,
+    JoinTable,
     ManyToMany,
     PrimaryGeneratedColumn,
     UpdateDateColumn,
 } from 'typeorm';
-import { JoinTable } from 'typeorm/browser';
 
 @Entity()
 export class TedTalk {

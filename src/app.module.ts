@@ -15,6 +15,8 @@ import { LessonPlansModule } from './lesson-plans/lesson-plans.module';
 import { LevelsModule } from './levels/levels.module';
 import { CheckListsModule } from './check-lists/check-lists.module';
 import { LearningResourcesModule } from './learning-resources/learning-resources.module';
+import { TedTalksModule } from './ted-talks/ted-talks.module';
+import { TagsModule } from './tags/tags.module';
 
 @Module({
     imports: [
@@ -64,6 +66,8 @@ import { LearningResourcesModule } from './learning-resources/learning-resources
         LevelsModule,
         CheckListsModule,
         LearningResourcesModule,
+        TedTalksModule,
+        TagsModule,
     ],
     providers: [EmailService, { provide: APP_GUARD, useClass: AdminOnlyGuard }],
 })

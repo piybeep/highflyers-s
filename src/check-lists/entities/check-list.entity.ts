@@ -1,4 +1,11 @@
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import {
+    Column,
+    CreateDateColumn,
+    Entity,
+    OneToMany,
+    PrimaryGeneratedColumn,
+    UpdateDateColumn,
+} from 'typeorm';
 import { LearningResource } from '@src/learning-resources/entities/learning-resource.entity';
 
 @Entity()
@@ -11,4 +18,10 @@ export class CheckList {
 
     @OneToMany(() => LearningResource, (resource) => resource.checkList)
     resources: LearningResource[];
+
+    @CreateDateColumn()
+    createdAt: Date;
+
+    @UpdateDateColumn()
+    updatedAt: Date;
 }

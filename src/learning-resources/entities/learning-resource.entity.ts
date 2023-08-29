@@ -7,6 +7,8 @@ import {
 } from 'typeorm';
 import { CheckList } from '@src/check-lists/entities/check-list.entity';
 
+export enum LearningResourceTypes {}
+
 @Entity()
 export class LearningResource {
     @PrimaryGeneratedColumn('uuid')
@@ -17,6 +19,8 @@ export class LearningResource {
     author: string;
     @Column()
     link: string;
+    @Column({ type: 'enum', enum: LearningResourceTypes })
+    type: LearningResourceTypes;
 
     @CreateDateColumn()
     createdAt: Date;

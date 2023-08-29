@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Tag } from '@src/tags/entities/tag.entity';
-import { slugify } from 'transliteration';
+import { SlugService } from 'nestjs-slug';
 import { In, Repository } from 'typeorm';
 import { CreateTagDto } from './dto/create-tag.dto';
 import { UpdateTagDto } from './dto/update-tag.dto';
@@ -10,12 +10,16 @@ import { UpdateTagDto } from './dto/update-tag.dto';
 export class TagsService {
     constructor(
         @InjectRepository(Tag) private readonly tagsRepository: Repository<Tag>,
+        private readonly slugService: SlugService,
     ) {}
 
     async create(createTagDto: CreateTagDto) {
         const new_tag = this.tagsRepository.create({
             ...createTagDto,
-            value: slugify(createTagDto.name, { trim: true }),
+            value: this.slugService.generateSlug(createTagDto.name, {
+                trim: true,
+                lowerCase: true,
+            }),
         });
         await this.tagsRepository.save(new_tag);
         return new_tag;
@@ -40,7 +44,10 @@ export class TagsService {
         }
         await this.tagsRepository.update(id, {
             ...updateTagDto,
-            value: slugify(updateTagDto.name, { trim: true }),
+            value: this.slugService.generateSlug(updateTagDto.name, {
+                trim: true,
+                lowerCase: true,
+            }),
         });
         return this.findOne(id);
     }

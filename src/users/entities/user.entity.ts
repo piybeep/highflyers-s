@@ -1,7 +1,13 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Exclude } from 'class-transformer';
-import { Column, Entity, ManyToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { Card } from '@src/cards/entities/card.entity';
+import { Exclude } from 'class-transformer';
+import {
+    Column,
+    Entity,
+    JoinTable,
+    ManyToMany,
+    PrimaryGeneratedColumn,
+} from 'typeorm';
 
 @Entity()
 export class User {
@@ -27,7 +33,7 @@ export class User {
     google_id?: string;
 
     @Column({ nullable: true })
-    // @Exclude()
+    @Exclude()
     resetCode?: string;
     @Column({ nullable: true })
     @Exclude()
@@ -42,5 +48,6 @@ export class User {
     refreshToken: string;
 
     @ManyToMany(() => Card)
+    @JoinTable()
     cards: Card[];
 }

@@ -2,10 +2,10 @@ import { ApiProperty } from '@nestjs/swagger';
 import { User } from 'src/users/entities/user.entity';
 
 export class SignResponseDto {
-    @ApiProperty()
+    @ApiProperty({ description: 'Токен доступа' })
     accessToken: string;
-    @ApiProperty()
+    @ApiProperty({ description: 'Токен обновления' })
     refreshToken: string;
-    @ApiProperty()
+    @ApiProperty({ description: 'Данные пользователя' })
     user: User;
 }

@@ -1,3 +1,6 @@
+import { ApiProperty } from '@nestjs/swagger';
+import { Card } from '@src/cards/entities/card.entity';
+import { LessonPlan } from '@src/lesson-plans/entities/lesson-plan.entity';
 import {
     Column,
     CreateDateColumn,
@@ -5,17 +8,18 @@ import {
     OneToMany,
     PrimaryGeneratedColumn,
 } from 'typeorm';
-import { Card } from '@src/cards/entities/card.entity';
-import { LessonPlan } from '@src/lesson-plans/entities/lesson-plan.entity';
 
 @Entity()
 export class Level {
+    @ApiProperty()
     @PrimaryGeneratedColumn('uuid')
     id: string;
 
+    @ApiProperty()
     @Column()
     name: string;
 
+    @ApiProperty()
     @CreateDateColumn()
     createdAt: Date;
 

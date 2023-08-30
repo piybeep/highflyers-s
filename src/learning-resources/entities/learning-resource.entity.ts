@@ -28,7 +28,7 @@ export class LearningResource {
     @ApiProperty()
     @Column()
     link: string;
-    @ApiProperty({ type: () => LearningResourceTypes })
+    @ApiProperty({ enum: LearningResourceTypes })
     @Column({ type: 'enum', enum: LearningResourceTypes })
     type: LearningResourceTypes;
 

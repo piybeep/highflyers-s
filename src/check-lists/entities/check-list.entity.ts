@@ -19,6 +19,10 @@ export class CheckList {
     @Column()
     theme: string;
 
+    @ApiProperty()
+    @Column('simple-array', { nullable: true })
+    points: string[];
+
     @ApiProperty({ type: () => LearningResource, isArray: true })
     @OneToMany(() => LearningResource, (resource) => resource.checkList)
     resources: LearningResource[];

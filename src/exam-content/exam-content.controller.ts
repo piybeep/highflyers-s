@@ -1,6 +1,8 @@
 import { Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 import { ExamContentService } from './exam-content.service';
 
+@ApiTags('Экзамен')
 @Controller('exam-content')
 export class ExamContentController {
     constructor(private readonly examContentService: ExamContentService) {}

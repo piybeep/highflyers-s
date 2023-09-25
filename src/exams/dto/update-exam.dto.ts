@@ -1,4 +1,22 @@
-import { PartialType } from '@nestjs/swagger';
-import { CreateExamDto } from './create-exam.dto';
+import { ApiPropertyOptional } from '@nestjs/swagger';
+import { IsNotEmpty, IsOptional, IsString } from 'class-validator';
 
-export class UpdateExamDto extends PartialType(CreateExamDto) {}
+export class UpdateExamDto {
+    @ApiPropertyOptional()
+    @IsString()
+    @IsNotEmpty()
+    @IsOptional()
+    name: string;
+
+    @ApiPropertyOptional()
+    @IsString()
+    @IsNotEmpty()
+    @IsOptional()
+    type: string;
+
+    @ApiPropertyOptional()
+    @IsString()
+    @IsNotEmpty()
+    @IsOptional()
+    subtype: string;
+}

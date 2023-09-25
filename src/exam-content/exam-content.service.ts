@@ -1,4 +1,6 @@
 import { Injectable } from '@nestjs/common';
+import { CreateExamContentDto } from '@src/exam-content/dto/create-exam-content.dto';
+import { UpdateExamContentDto } from '@src/exam-content/dto/update-exam-content.dto';
 
 @Injectable()
 export class ExamContentService {
@@ -10,7 +12,8 @@ export class ExamContentService {
     ) {}
     */
 
-    create(/*createExamContentDto: CreateExamContentDto*/) {
+    create(createExamContentDto: CreateExamContentDto) {
+        console.log(createExamContentDto);
         return 'This action adds a new examContent';
     }
 
@@ -22,7 +25,8 @@ export class ExamContentService {
         return `This action returns a #${id} examContent`;
     }
 
-    update(id: string /*updateExamContentDto: UpdateExamContentDto*/) {
+    update(id: string, updateExamContentDto: UpdateExamContentDto) {
+        console.log(updateExamContentDto);
         return `This action updates a #${id} examContent`;
     }
 

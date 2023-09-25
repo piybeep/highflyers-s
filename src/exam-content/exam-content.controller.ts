@@ -1,5 +1,15 @@
-import { Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common';
+import {
+    Body,
+    Controller,
+    Delete,
+    Get,
+    Param,
+    Patch,
+    Post,
+} from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
+import { CreateExamContentDto } from '@src/exam-content/dto/create-exam-content.dto';
+import { UpdateExamContentDto } from '@src/exam-content/dto/update-exam-content.dto';
 import { ExamContentService } from './exam-content.service';
 
 @ApiTags('Экзамен')
@@ -8,8 +18,8 @@ export class ExamContentController {
     constructor(private readonly examContentService: ExamContentService) {}
 
     @Post()
-    create(/*@Body() createExamContentDto: CreateExamContentDto*/) {
-        return this.examContentService.create(/*createExamContentDto*/);
+    create(@Body() createExamContentDto: CreateExamContentDto) {
+        return this.examContentService.create(createExamContentDto);
     }
 
     @Get()
@@ -25,9 +35,9 @@ export class ExamContentController {
     @Patch(':id')
     update(
         @Param('id') id: string,
-        /*@Body() updateExamContentDto: UpdateExamContentDto,*/
+        @Body() updateExamContentDto: UpdateExamContentDto,
     ) {
-        return this.examContentService.update(id /*updateExamContentDto*/);
+        return this.examContentService.update(id, updateExamContentDto);
     }
 
     @Delete(':id')

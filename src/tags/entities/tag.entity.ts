@@ -1,8 +1,11 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { ExamContent } from '@src/exam-content/entities/exam-content.entity';
+import { TedTalk } from '@src/ted-talks/entities/ted-talk.entity';
 import {
     Column,
     CreateDateColumn,
     Entity,
+    ManyToOne,
     PrimaryGeneratedColumn,
 } from 'typeorm';
 
@@ -22,4 +25,10 @@ export class Tag {
     @ApiProperty()
     @CreateDateColumn()
     createdAt: Date;
+
+    @ManyToOne(() => ExamContent, (exam_content) => exam_content.tags)
+    exam_content: ExamContent;
+
+    @ManyToOne(() => TedTalk, (ted_talk) => ted_talk.tags)
+    ted_talk: TedTalk;
 }

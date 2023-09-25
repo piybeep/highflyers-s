@@ -17,6 +17,8 @@ import { CheckListsModule } from './check-lists/check-lists.module';
 import { LearningResourcesModule } from './learning-resources/learning-resources.module';
 import { TedTalksModule } from './ted-talks/ted-talks.module';
 import { TagsModule } from './tags/tags.module';
+import { ExamsModule } from './exams/exams.module';
+import { ExamContentModule } from './exam-content/exam-content.module';
 
 @Module({
     imports: [
@@ -68,6 +70,8 @@ import { TagsModule } from './tags/tags.module';
         LearningResourcesModule,
         TedTalksModule,
         TagsModule,
+        ExamsModule,
+        ExamContentModule,
     ],
     providers: [EmailService, { provide: APP_GUARD, useClass: AdminOnlyGuard }],
 })

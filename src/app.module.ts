@@ -1,25 +1,28 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { UsersModule } from './users/users.module';
-import { AuthModule } from './auth/auth.module';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { EmailService } from './email/email.service';
-import { EmailModule } from './email/email.module';
-import * as Joi from 'joi';
 import { APP_GUARD } from '@nestjs/core';
-import { AdminOnlyGuard } from './common/guards/adminOnly.guard';
-import { CategoriesModule } from './categories/categories.module';
-import { ShowcasesModule } from './showcase/showcases.module';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import * as Joi from 'joi';
+import { ArticlesModule } from './articles/articles.module';
+import { AuthModule } from './auth/auth.module';
 import { CardsModule } from './cards/cards.module';
+import { CategoriesModule } from './categories/categories.module';
+import { CheckListsModule } from './check-lists/check-lists.module';
+import { AdminOnlyGuard } from './common/guards/adminOnly.guard';
+import { EmailModule } from './email/email.module';
+import { EmailService } from './email/email.service';
+import { ExamContentModule } from './exam-content/exam-content.module';
+import { ExamsModule } from './exams/exams.module';
+import { LearningResourcesModule } from './learning-resources/learning-resources.module';
 import { LessonPlansModule } from './lesson-plans/lesson-plans.module';
 import { LevelsModule } from './levels/levels.module';
-import { CheckListsModule } from './check-lists/check-lists.module';
-import { LearningResourcesModule } from './learning-resources/learning-resources.module';
-import { TedTalksModule } from './ted-talks/ted-talks.module';
+import { ShowcasesModule } from './showcase/showcases.module';
 import { TagsModule } from './tags/tags.module';
-import { ExamsModule } from './exams/exams.module';
-import { ExamContentModule } from './exam-content/exam-content.module';
-import { ArticlesModule } from './articles/articles.module';
+import { TedTalksModule } from './ted-talks/ted-talks.module';
+import { TestsModule } from './tests/tests.module';
+import { UsersModule } from './users/users.module';
+import { TestContentModule } from './test-content/test-content.module';
+import { TestAnswersModule } from './test-answers/test-answers.module';
 
 @Module({
     imports: [
@@ -74,6 +77,9 @@ import { ArticlesModule } from './articles/articles.module';
         ExamsModule,
         ExamContentModule,
         ArticlesModule,
+        TestsModule,
+        TestContentModule,
+        TestAnswersModule,
     ],
     providers: [EmailService, { provide: APP_GUARD, useClass: AdminOnlyGuard }],
 })

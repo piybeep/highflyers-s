@@ -1,4 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { Article } from '@src/articles/entities/article.entity';
 import { ExamContent } from '@src/exam-content/entities/exam-content.entity';
 import { TedTalk } from '@src/ted-talks/entities/ted-talk.entity';
 import {
@@ -31,4 +32,7 @@ export class Tag {
 
     @ManyToOne(() => TedTalk, (ted_talk) => ted_talk.tags)
     ted_talk: TedTalk;
+
+    @ManyToOne(() => Article, (article) => article.tags)
+    article: Article;
 }

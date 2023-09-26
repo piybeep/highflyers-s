@@ -19,6 +19,7 @@ import { TedTalksModule } from './ted-talks/ted-talks.module';
 import { TagsModule } from './tags/tags.module';
 import { ExamsModule } from './exams/exams.module';
 import { ExamContentModule } from './exam-content/exam-content.module';
+import { ArticlesModule } from './articles/articles.module';
 
 @Module({
     imports: [
@@ -72,6 +73,7 @@ import { ExamContentModule } from './exam-content/exam-content.module';
         TagsModule,
         ExamsModule,
         ExamContentModule,
+        ArticlesModule,
     ],
     providers: [EmailService, { provide: APP_GUARD, useClass: AdminOnlyGuard }],
 })

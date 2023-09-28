@@ -1,28 +1,57 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Article } from '@src/articles/entities/article.entity';
+import { TagsService } from '@src/tags/tags.service';
+import { Repository } from 'typeorm';
 import { CreateArticleDto } from './dto/create-article.dto';
 import { UpdateArticleDto } from './dto/update-article.dto';
 
 @Injectable()
 export class ArticlesService {
-    create(createArticleDto: CreateArticleDto) {
-        console.log(createArticleDto);
-        return 'This action adds a new article';
+    constructor(
+        @InjectRepository(Article)
+        private readonly articlesRepository: Repository<Article>,
+        private readonly tagsService: TagsService,
+    ) {}
+
+    async create(createArticleDto: CreateArticleDto) {
+        const tags = await this.tagsService.findManyByIds(
+            createArticleDto.tags,
+        );
+        const new_article = this.articlesRepository.create({
+            ...createArticleDto,
+            tags,
+        });
+        return this.articlesRepository.save(new_article);
     }
 
     findAll() {
-        return `This action returns all articles`;
+        return this.articlesRepository.find();
     }
 
     findOne(id: string) {
-        return `This action returns a #${id} article`;
+        return this.articlesRepository.findOneBy({ id });
     }
 
-    update(id: string, updateArticleDto: UpdateArticleDto) {
-        console.log(updateArticleDto);
-        return `This action updates a #${id} article`;
+    async update(id: string, updateArticleDto: UpdateArticleDto) {
+        const article = await this.findOne(id);
+        if (!article) {
+            throw new NotFoundException();
+        }
+        const tags =
+            'tags' in updateArticleDto
+                ? await this.tagsService.findManyByIds(updateArticleDto.tags)
+                : article.tags;
+        await this.articlesRepository.update(id, { ...updateArticleDto, tags });
+        return this.findOne(id);
     }
 
-    remove(id: string) {
-        return `This action removes a #${id} article`;
+    async remove(id: string) {
+        const article = await this.findOne(id);
+        if (!article) {
+            throw new NotFoundException();
+        }
+        await this.articlesRepository.delete(id);
+        return article;
     }
 }

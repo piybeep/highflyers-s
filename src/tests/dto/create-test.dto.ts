@@ -12,7 +12,7 @@ export class CreateTestDto {
     @IsString()
     @IsNotEmpty()
     @IsEnum(TestTypes)
-    type: string;
+    type: TestTypes;
 
     @ApiProperty()
     @IsString({ each: true })

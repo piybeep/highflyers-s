@@ -1,28 +1,65 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { TestContentService } from '@src/test-content/test-content.service';
+import { Test } from '@src/tests/entities/test.entity';
+import { Repository } from 'typeorm';
 import { CreateTestDto } from './dto/create-test.dto';
 import { UpdateTestDto } from './dto/update-test.dto';
 
 @Injectable()
 export class TestsService {
-    create(createTestDto: CreateTestDto) {
-        console.log(createTestDto);
-        return 'This action adds a new test';
+    constructor(
+        @InjectRepository(Test)
+        private readonly testRepository: Repository<Test>,
+        private readonly testContentService: TestContentService,
+    ) {}
+
+    async create(createTestDto: CreateTestDto) {
+        const test_content = await this.testContentService.findAllByIds(
+            createTestDto.tests,
+        );
+        if (!test_content.length) {
+            throw new NotFoundException();
+        }
+        const new_test = this.testRepository.create({
+            ...createTestDto,
+            tests: test_content,
+        });
+        return this.testRepository.save(new_test);
     }
 
     findAll() {
-        return `This action returns all tests`;
+        return this.testRepository.find();
     }
 
-    findOne(id: number) {
-        return `This action returns a #${id} test`;
+    findOne(id: string) {
+        return this.testRepository.findOneBy({ id });
     }
 
-    update(id: number, updateTestDto: UpdateTestDto) {
-        console.log(updateTestDto);
-        return `This action updates a #${id} test`;
+    async update(id: string, updateTestDto: UpdateTestDto) {
+        const test = await this.findOne(id);
+        if (!test) {
+            throw new NotFoundException();
+        }
+        const tests =
+            'tests' in updateTestDto
+                ? await this.testContentService.findAllByIds(
+                      updateTestDto.tests,
+                  )
+                : test.tests;
+        await this.testRepository.update(id, {
+            ...updateTestDto,
+            tests,
+        });
+        return this.findOne(id);
     }
 
-    remove(id: number) {
-        return `This action removes a #${id} test`;
+    async remove(id: string) {
+        const test = await this.findOne(id);
+        if (!test) {
+            throw new NotFoundException();
+        }
+        await this.testRepository.delete(id);
+        return test;
     }
 }

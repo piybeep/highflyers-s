@@ -21,7 +21,7 @@ export class UpdateTestDto {
     @IsNotEmpty()
     @IsEnum(TestTypes)
     @IsOptional()
-    type?: string;
+    type?: TestTypes;
 
     @ApiPropertyOptional()
     @IsString({ each: true })

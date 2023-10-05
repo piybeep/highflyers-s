@@ -1,4 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { ExamsSubType, ExamsType } from '@src/exams/entities/exam.entity';
 import { IsNotEmpty, IsString } from 'class-validator';
 
 export class CreateExamDto {
@@ -9,9 +10,9 @@ export class CreateExamDto {
     @ApiProperty()
     @IsString()
     @IsNotEmpty()
-    type: string;
+    type: ExamsType;
     @ApiProperty()
     @IsString()
     @IsNotEmpty()
-    subtype: string;
+    subtype: ExamsSubType;
 }

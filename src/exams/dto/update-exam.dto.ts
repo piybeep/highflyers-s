@@ -1,4 +1,5 @@
 import { ApiPropertyOptional } from '@nestjs/swagger';
+import { ExamsSubType, ExamsType } from '@src/exams/entities/exam.entity';
 import { IsNotEmpty, IsOptional, IsString } from 'class-validator';
 
 export class UpdateExamDto {
@@ -6,17 +7,17 @@ export class UpdateExamDto {
     @IsString()
     @IsNotEmpty()
     @IsOptional()
-    name: string;
+    name?: string;
 
     @ApiPropertyOptional()
     @IsString()
     @IsNotEmpty()
     @IsOptional()
-    type: string;
+    type?: ExamsType;
 
     @ApiPropertyOptional()
     @IsString()
     @IsNotEmpty()
     @IsOptional()
-    subtype: string;
+    subtype?: ExamsSubType;
 }

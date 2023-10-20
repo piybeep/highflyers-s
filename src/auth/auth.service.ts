@@ -7,15 +7,15 @@ import {
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import * as argon2 from 'argon2';
+import { isEmpty } from 'class-validator';
+import { randomBytes } from 'crypto';
+import { EmailService } from 'src/email/email.service';
 
 import { CreateUserDto } from 'src/users/dto/create-user.dto';
 import { UsersService } from 'src/users/users.service';
 import { AuthDto } from './dto/auth.dto';
-import { EmailService } from 'src/email/email.service';
-import { randomBytes } from 'crypto';
-import { RecoveryWithCodeDto } from './dto/recovery-w-code.dto';
-import { isEmpty } from 'class-validator';
 import { GoogleDto } from './dto/google.dto';
+import { RecoveryWithCodeDto } from './dto/recovery-w-code.dto';
 
 @Injectable()
 export class AuthService {
@@ -93,7 +93,7 @@ export class AuthService {
                 },
                 {
                     secret: this.configService.get<string>('JWT_ACCESS_SECRET'),
-                    expiresIn: '15m',
+                    expiresIn: '20s',
                 },
             ),
             this.jwtService.signAsync(

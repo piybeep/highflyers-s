@@ -119,12 +119,14 @@ export class AuthService {
 
     async refreshTokens(userId: string, refreshToken: string) {
         const user = await this.usersService.findById(userId);
-        if (!user || !user.refreshToken) throw new ForbiddenException();
+        if (!user || !user.refreshToken)
+            throw new ForbiddenException('Refresh token not found');
         const refreshTokenMatches = await argon2.verify(
             user.refreshToken,
             refreshToken,
         );
-        if (!refreshTokenMatches) throw new ForbiddenException();
+        if (!refreshTokenMatches)
+            throw new ForbiddenException('Refresh token is not correct');
         const tokens = await this.getTokens(user.id, user.email, user.isAdmin);
         await this.updateRefreshToken(user.id, tokens.refreshToken);
         return { ...tokens, user };

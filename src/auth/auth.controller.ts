@@ -85,7 +85,6 @@ export class AuthController {
     @ApiOkResponse({ type: SignResponseDto })
     @Get('refresh')
     refreshTokens(@Req() req: Request) {
-        console.log({ ...req.user });
         const userId = req.user['id'];
         const refreshToken = req.user['refreshToken'];
         return this.authService.refreshTokens(userId, refreshToken);

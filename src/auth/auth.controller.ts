@@ -9,12 +9,6 @@ import {
     Req,
     UseGuards,
 } from '@nestjs/common';
-import { AuthService } from './auth.service';
-import { CreateUserDto } from 'src/users/dto/create-user.dto';
-import { AuthDto } from './dto/auth.dto';
-import { Request } from 'express';
-import { AccessTokenGuard } from 'src/common/guards/accessToken.guard';
-import { RefreshTokenGuard } from 'src/common/guards/refreshToken.guard';
 import {
     ApiBearerAuth,
     ApiBody,
@@ -23,11 +17,17 @@ import {
     ApiOperation,
     ApiTags,
 } from '@nestjs/swagger';
+import { Request } from 'express';
+import { OAuth2Client } from 'google-auth-library';
+import { AccessTokenGuard } from 'src/common/guards/accessToken.guard';
+import { RefreshTokenGuard } from 'src/common/guards/refreshToken.guard';
+import { CreateUserDto } from 'src/users/dto/create-user.dto';
+import { AuthService } from './auth.service';
+import { AuthDto } from './dto/auth.dto';
+import { GoogleSignDto } from './dto/google.dto';
 import { RecoveryRequestDto } from './dto/recovery-request.dto';
 import { RecoveryWithCodeDto } from './dto/recovery-w-code.dto';
 import { SignResponseDto } from './dto/responses.dto';
-import { OAuth2Client } from 'google-auth-library';
-import { GoogleSignDto } from './dto/google.dto';
 
 const client = new OAuth2Client(
     process.env.GOOGLE_CLIENT_ID,
@@ -85,6 +85,7 @@ export class AuthController {
     @ApiOkResponse({ type: SignResponseDto })
     @Get('refresh')
     refreshTokens(@Req() req: Request) {
+        console.log({ ...req.user });
         const userId = req.user['id'];
         const refreshToken = req.user['refreshToken'];
         return this.authService.refreshTokens(userId, refreshToken);

@@ -14,10 +14,10 @@ import { FilesService } from './files.service';
     imports: [
         TypeOrmModule.forFeature([FileEntity]),
         MulterModule.register({
-            dest: join(resolve(), 'upload'),
+            dest: join(resolve(), 'uploads'),
             storage: diskStorage({
                 destination: (_req, _file, callback) => {
-                    const uploadPath = join(resolve(), 'upload');
+                    const uploadPath = join(resolve(), 'uploads');
 
                     if (!existsSync(uploadPath)) {
                         mkdirSync(uploadPath);

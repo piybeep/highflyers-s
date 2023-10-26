@@ -30,8 +30,11 @@ import { FilesService } from './files.service';
                     file: Express.Multer.File,
                     callback: (error: Error | null, filename: string) => void,
                 ) {
-                    console.log(file);
-                    callback(null, file.originalname);
+                    if (file && file.originalname) {
+                        callback(null, file.originalname);
+                    } else {
+                        callback(new Error('File not found'), 'empty');
+                    }
                 },
             }),
         }),

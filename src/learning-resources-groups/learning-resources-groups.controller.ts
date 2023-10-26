@@ -1,14 +1,4 @@
-import {
-    Body,
-    Controller,
-    Delete,
-    Get,
-    Param,
-    Patch,
-    Post,
-} from '@nestjs/common';
-import { CreateLearningResourcesGroupDto } from './dto/create-learning-resources-group.dto';
-import { UpdateLearningResourcesGroupDto } from './dto/update-learning-resources-group.dto';
+import { Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common';
 import { LearningResourcesGroupsService } from './learning-resources-groups.service';
 
 @Controller('learning-resources-groups')
@@ -18,13 +8,12 @@ export class LearningResourcesGroupsController {
     ) {}
 
     @Post()
-    create(
-        @Body()
-        createLearningResourcesGroupDto: CreateLearningResourcesGroupDto,
-    ) {
-        return this.learningResourcesGroupsService.create(
-            createLearningResourcesGroupDto,
-        );
+    create() {
+        // @Body() createLearningResourcesGroupDto: CreateLearningResourcesGroupDto
+        return this.learningResourcesGroupsService
+            .create
+            // createLearningResourcesGroupDto,
+            ();
     }
 
     @Get()
@@ -40,12 +29,12 @@ export class LearningResourcesGroupsController {
     @Patch(':id')
     update(
         @Param('id') id: string,
-        @Body()
-        updateLearningResourcesGroupDto: UpdateLearningResourcesGroupDto,
+        // @Body()
+        // updateLearningResourcesGroupDto: UpdateLearningResourcesGroupDto,
     ) {
         return this.learningResourcesGroupsService.update(
             +id,
-            updateLearningResourcesGroupDto,
+            // updateLearningResourcesGroupDto,
         );
     }
 

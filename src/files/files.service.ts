@@ -11,11 +11,10 @@ export class FilesService {
     ) {}
 
     create(file: Express.Multer.File) {
-        console.log(file);
         const new_file = this.filesRepository.create({
-            filename: file.originalname,
-            size: file.size,
-            type: file.mimetype,
+            filename: file?.originalname,
+            size: file?.size,
+            type: file?.mimetype,
         });
         return this.filesRepository.save(new_file);
     }

@@ -8,7 +8,7 @@ import {
     UseGuards,
     UseInterceptors,
 } from '@nestjs/common';
-import { FilesInterceptor } from '@nestjs/platform-express';
+import { FileInterceptor } from '@nestjs/platform-express';
 import {
     ApiBearerAuth,
     ApiConsumes,
@@ -35,9 +35,10 @@ export class FilesController {
     @UseGuards(AccessTokenGuard)
     @AdminOnly(true)
     @Post()
-    @UseInterceptors(FilesInterceptor('file', 1))
+    @UseInterceptors(FileInterceptor('file'))
     @ApiConsumes('multipart/form-data')
-    create(@UploadedFile() file: Express.Multer.File) {
+    create(@UploadedFile('file') file: Express.Multer.File) {
+        console.log('creating file', file);
         return this.filesService.create(file);
     }
 

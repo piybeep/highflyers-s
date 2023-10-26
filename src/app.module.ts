@@ -1,8 +1,10 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { APP_GUARD } from '@nestjs/core';
+import { ServeStaticModule } from '@nestjs/serve-static';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import * as Joi from 'joi';
+import { join, resolve } from 'path';
 import { ArticlesModule } from './articles/articles.module';
 import { AuthModule } from './auth/auth.module';
 import { CardsModule } from './cards/cards.module';
@@ -13,16 +15,18 @@ import { EmailModule } from './email/email.module';
 import { EmailService } from './email/email.service';
 import { ExamContentModule } from './exam-content/exam-content.module';
 import { ExamsModule } from './exams/exams.module';
+import { FilesModule } from './files/files.module';
+import { LearningResourcesGroupsModule } from './learning-resources-groups/learning-resources-groups.module';
 import { LearningResourcesModule } from './learning-resources/learning-resources.module';
 import { LessonPlansModule } from './lesson-plans/lesson-plans.module';
 import { LevelsModule } from './levels/levels.module';
 import { ShowcasesModule } from './showcase/showcases.module';
 import { TagsModule } from './tags/tags.module';
 import { TedTalksModule } from './ted-talks/ted-talks.module';
+import { TestAnswersModule } from './test-answers/test-answers.module';
+import { TestContentModule } from './test-content/test-content.module';
 import { TestsModule } from './tests/tests.module';
 import { UsersModule } from './users/users.module';
-import { TestContentModule } from './test-content/test-content.module';
-import { TestAnswersModule } from './test-answers/test-answers.module';
 
 @Module({
     imports: [
@@ -62,6 +66,10 @@ import { TestAnswersModule } from './test-answers/test-answers.module';
                 logging: true,
             }),
         }),
+        ServeStaticModule.forRoot({
+            rootPath: join(resolve(), 'uploads'),
+            serveRoot: '/api/uploads',
+        }),
         UsersModule,
         AuthModule,
         EmailModule,
@@ -80,6 +88,8 @@ import { TestAnswersModule } from './test-answers/test-answers.module';
         TestsModule,
         TestContentModule,
         TestAnswersModule,
+        LearningResourcesGroupsModule,
+        FilesModule,
     ],
     providers: [EmailService, { provide: APP_GUARD, useClass: AdminOnlyGuard }],
 })

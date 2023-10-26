@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { CreateLearningResourceDto } from '@src/learning-resources/dto/create-learning-resource.dto';
+import { CreateLearningResourcesGroupDto } from '@src/learning-resources-groups/dto/create-learning-resources-group.dto';
 import { IsArray, IsNotEmpty, IsString } from 'class-validator';
 
 export class CreateCheckListDto {
@@ -12,10 +12,13 @@ export class CreateCheckListDto {
     theme: string;
 
     @ApiProperty({
-        type: () => CreateLearningResourceDto,
+        type: () => CreateLearningResourcesGroupDto,
         isArray: true,
-        description: 'Обучающие ресурсы',
+        description: 'Группы обучающих ресурсов',
     })
-    @IsArray({ each: true, message: 'Ресурсы должны быть массивом' })
-    resources: CreateLearningResourceDto[];
+    @IsArray({
+        each: true,
+        message: 'Группы обучающих ресурсов должны быть массивом',
+    })
+    resources: CreateLearningResourcesGroupDto[];
 }

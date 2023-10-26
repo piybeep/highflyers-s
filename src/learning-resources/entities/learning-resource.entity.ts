@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { CheckList } from '@src/check-lists/entities/check-list.entity';
+import { LearningResourcesGroup } from '@src/learning-resources-groups/entities/learning-resources-group.entity';
 import {
     Column,
     CreateDateColumn,
@@ -36,7 +36,7 @@ export class LearningResource {
     @CreateDateColumn()
     createdAt: Date;
 
-    @ApiProperty({ type: () => CheckList })
-    @ManyToOne(() => CheckList, (checkList) => checkList.resources)
-    checkList: CheckList;
+    @ApiProperty({ type: () => LearningResourcesGroup })
+    @ManyToOne(() => LearningResourcesGroup, (group) => group.list)
+    group: LearningResourcesGroup;
 }

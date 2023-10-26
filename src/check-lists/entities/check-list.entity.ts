@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { LearningResource } from '@src/learning-resources/entities/learning-resource.entity';
+import { LearningResourcesGroup } from '@src/learning-resources-groups/entities/learning-resources-group.entity';
 import {
     Column,
     CreateDateColumn,
@@ -23,9 +23,9 @@ export class CheckList {
     @Column('simple-array', { nullable: true })
     points: string[];
 
-    @ApiProperty({ type: () => LearningResource, isArray: true })
-    @OneToMany(() => LearningResource, (resource) => resource.checkList)
-    resources: LearningResource[];
+    @ApiProperty({ type: () => LearningResourcesGroup, isArray: true })
+    @OneToMany(() => LearningResourcesGroup, (resource) => resource.checkList)
+    resources: LearningResourcesGroup[];
 
     @ApiProperty()
     @CreateDateColumn()

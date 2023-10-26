@@ -1,10 +1,10 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { CreateCardDto } from './dto/create-card.dto';
-import { UpdateCardDto } from './dto/update-card.dto';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Card } from './entities/card.entity';
 import { Repository } from 'typeorm';
 import { LevelsService } from '../levels/levels.service';
+import { CreateCardDto } from './dto/create-card.dto';
+import { UpdateCardDto } from './dto/update-card.dto';
+import { Card } from './entities/card.entity';
 
 @Injectable()
 export class CardsService {
@@ -29,11 +29,20 @@ export class CardsService {
     }
 
     findAll() {
-        return this.cardsRepository.find();
+        return this.cardsRepository.find({
+            relations: {
+                level: true,
+            },
+        });
     }
 
     findOne(id: string) {
-        return this.cardsRepository.findOneBy({ id });
+        return this.cardsRepository.findOne({
+            where: { id },
+            relations: {
+                level: true,
+            },
+        });
     }
 
     async update(id: string, updateCardDto: UpdateCardDto) {

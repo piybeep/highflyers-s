@@ -11,6 +11,7 @@ export class FilesService {
     ) {}
 
     create(file: Express.Multer.File) {
+        console.log(file);
         const new_file = this.filesRepository.create({
             filename: file.originalname,
             size: file.size,

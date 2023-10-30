@@ -43,6 +43,14 @@ export class CreateCardDto {
     link: string;
 
     @ApiProperty({
+        description: 'Обложка карточки',
+        example: 'lesson-1.jpg',
+    })
+    @IsString({ message: 'Обложка карточки должна быть строкой' })
+    @IsNotEmpty({ message: 'Обложка карточки не может быть пустой' })
+    preview: string;
+
+    @ApiProperty({
         description: 'Идентификатор уровня',
         example: 'b47ebf00-4f82-4a56-b00e-c2f4ed6b2a41',
     })

@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { In, Repository } from 'typeorm';
 import { LevelsService } from '../levels/levels.service';
 import { CreateCardDto } from './dto/create-card.dto';
 import { UpdateCardDto } from './dto/update-card.dto';
@@ -28,11 +28,18 @@ export class CardsService {
         return new_card;
     }
 
-    findAll() {
+    findAll(levels?: string) {
         return this.cardsRepository.find({
             relations: {
                 level: true,
             },
+            where: levels
+                ? {
+                      level: {
+                          name: In(levels.split(',')),
+                      },
+                  }
+                : undefined,
         });
     }
 

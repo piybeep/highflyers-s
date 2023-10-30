@@ -6,19 +6,20 @@ import {
     Param,
     Patch,
     Post,
+    Query,
     UseGuards,
 } from '@nestjs/common';
-import { CardsService } from './cards.service';
-import { CreateCardDto } from './dto/create-card.dto';
-import { UpdateCardDto } from './dto/update-card.dto';
 import {
     ApiBearerAuth,
     ApiOkResponse,
     ApiOperation,
     ApiTags,
 } from '@nestjs/swagger';
-import { AccessTokenGuard } from '../common/guards/accessToken.guard';
 import { AdminOnly } from '../common/decorators/adminOnly.decorator';
+import { AccessTokenGuard } from '../common/guards/accessToken.guard';
+import { CardsService } from './cards.service';
+import { CreateCardDto } from './dto/create-card.dto';
+import { UpdateCardDto } from './dto/update-card.dto';
 import { Card } from './entities/card.entity';
 
 @ApiTags('Карточки (обучение по карточкам)')
@@ -42,8 +43,8 @@ export class CardsController {
     @ApiOperation({ summary: 'Получение всех карточек' })
     @ApiOkResponse({ type: Card, isArray: true })
     @Get()
-    findAll() {
-        return this.cardsService.findAll();
+    findAll(@Query('levels') levels: string) {
+        return this.cardsService.findAll(levels);
     }
 
     @ApiOperation({ summary: 'Получение карточки по идентификатору' })

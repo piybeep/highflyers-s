@@ -46,6 +46,15 @@ export class UpdateCardDto {
     link?: string;
 
     @ApiPropertyOptional({
+        description: 'Обложка карточки',
+        example: 'lesson-1.jpg',
+    })
+    @IsOptional()
+    @IsString({ message: 'Обложка карточки должна быть строкой' })
+    @IsNotEmpty({ message: 'Обложка карточки не может быть пустой' })
+    preview?: string;
+
+    @ApiPropertyOptional({
         description: 'Идентификатор уровня',
         example: 'b47ebf00-4f82-4a56-b00e-c2f4ed6b2a41',
     })
